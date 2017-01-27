@@ -18,7 +18,7 @@ var mainState = {
 		game.physics.arcade.enable(this.ball);
 		this.ball.body.collideWorldBounds = true;
 		this.ball.body.bounce.set(1,1);
-		this.ball.body.velocity.setTo(200,200)
+		this.startBall();
 		this.p1.body.immovable = true;
 		this.p2.body.immovable = true;
 		this.labelP1Score = game.add.text(200, 20, "0", {font: "30px Arial", fill: '#ffffff'});
@@ -39,10 +39,7 @@ var mainState = {
 	    }
 	    game.physics.arcade.collide(this.p1, this.ball);
 	    game.physics.arcade.collide(this.p2, this.ball);
-	    if(this.ball.body.velocity.x > 0)
-	    	this.ball.body.velocity.setTo(this.ball.body.velocity.x+1, this.ball.body.velocity.y+1);
-	    else
-	    	this.ball.body.velocity.setTo(this.ball.body.velocity.x-1, this.ball.body.velocity.y-1);
+	    this.ballVelocity();
 	    this.enemyAI();
 	    this.checkGameScore();
 	},
@@ -60,7 +57,7 @@ var mainState = {
 			this.labelP2Score.text = this.p2Score;
 			this.ball.x = game.world.centerX;
 			this.ball.y = game.world.centerY;
-			this.ball.body.velocity.setTo(200,200);
+			this.startBall();
 		}
 		else if(this.ball.x+this.ball.width >= game.world.width){
 			this.p1Score += 1;
@@ -75,7 +72,7 @@ var mainState = {
 			this.labelP1Score.text = this.p1Score;
 			this.ball.x = game.world.centerX;
 			this.ball.y = game.world.centerY;
-			this.ball.body.velocity.setTo(200,200)
+			this.startBall();
 		}
 	},
 
@@ -87,6 +84,37 @@ var mainState = {
 			this.p2.y += 5;
 		}
 	},
+
+	startBall: function(){
+		rand = Math.floor(Math.random() * 3);
+		if(rand == 0){
+			this.ball.body.velocity.setTo(200,200);
+		}
+		else if(rand == 1){
+			this.ball.body.velocity.setTo(-200,200);
+		}
+		else if(rand == 2){
+			this.ball.body.velocity.setTo(200,-200);
+		}
+		else{
+			this.ball.body.velocity.setTo(-200,-200);
+		}
+	},
+
+	ballVelocity: function(){
+		if(this.ball.body.velocity.x > 0 && this.ball.body.velocity.y > 0){
+	    	this.ball.body.velocity.setTo(this.ball.body.velocity.x+1, this.ball.body.velocity.y+1);
+	    }
+	    else if(this.ball.body.velocity.x > 0 && this.ball.body.velocity.y < 0){
+	    	this.ball.body.velocity.setTo(this.ball.body.velocity.x+1, this.ball.body.velocity.y-1)
+	    }
+	    else if(this.ball.body.velocity.x < 0 && this.ball.body.velocity.y > 0){
+	    	this.ball.body.velocity.setTo(this.ball.body.velocity.x-1, this.ball.body.velocity.y+1)
+	    }
+	    else{
+	    	this.ball.body.velocity.setTo(this.ball.body.velocity.x-1, this.ball.body.velocity.y-1);
+	    }
+	}
 }
 
 var multiState = {
@@ -108,7 +136,7 @@ var multiState = {
 		game.physics.arcade.enable(this.ball);
 		this.ball.body.collideWorldBounds = true;
 		this.ball.body.bounce.set(1);
-		this.ball.body.velocity.setTo(200,200)
+		this.startBall();
 		this.p1.body.immovable = true;
 		this.p2.body.immovable = true;
 		this.labelP1Score = game.add.text(200, 20, "0", {font: "30px Arial", fill: '#ffffff'});
@@ -137,10 +165,7 @@ var multiState = {
 	    }
 	    game.physics.arcade.collide(this.p1, this.ball);
 	    game.physics.arcade.collide(this.p2, this.ball);
-	    if(this.ball.body.velocity.x > 0)
-	    	this.ball.body.velocity.setTo(this.ball.body.velocity.x+1, this.ball.body.velocity.y+1);
-	    else
-	    	this.ball.body.velocity.setTo(this.ball.body.velocity.x-1, this.ball.body.velocity.y-1);
+	    this.ballVelocity();
 	    this.checkGameScore();
 	},
 	checkGameScore: function(){
@@ -157,7 +182,7 @@ var multiState = {
 			this.labelP2Score.text = this.p2Score;
 			this.ball.x = game.world.centerX;
 			this.ball.y = game.world.centerY;
-			this.ball.body.velocity.setTo(200,200);
+			this.startBall();
 		}
 		else if(this.ball.x+this.ball.width >= game.world.width){
 			this.p1Score += 1;
@@ -172,9 +197,40 @@ var multiState = {
 			this.labelP1Score.text = this.p1Score;
 			this.ball.x = game.world.centerX;
 			this.ball.y = game.world.centerY;
-			this.ball.body.velocity.setTo(200,200)
+			this.startBall();
 		}
 	},
+
+	startBall: function(){
+		rand = Math.floor(Math.random() * 3);
+		if(rand == 0){
+			this.ball.body.velocity.setTo(200,200);
+		}
+		else if(rand == 1){
+			this.ball.body.velocity.setTo(-200,200);
+		}
+		else if(rand == 2){
+			this.ball.body.velocity.setTo(200,-200);
+		}
+		else{
+			this.ball.body.velocity.setTo(-200,-200);
+		}
+	},
+
+	ballVelocity: function(){
+		if(this.ball.body.velocity.x > 0 && this.ball.body.velocity.y > 0){
+	    	this.ball.body.velocity.setTo(this.ball.body.velocity.x+1, this.ball.body.velocity.y+1);
+	    }
+	    else if(this.ball.body.velocity.x > 0 && this.ball.body.velocity.y < 0){
+	    	this.ball.body.velocity.setTo(this.ball.body.velocity.x+1, this.ball.body.velocity.y-1)
+	    }
+	    else if(this.ball.body.velocity.x < 0 && this.ball.body.velocity.y > 0){
+	    	this.ball.body.velocity.setTo(this.ball.body.velocity.x-1, this.ball.body.velocity.y+1)
+	    }
+	    else{
+	    	this.ball.body.velocity.setTo(this.ball.body.velocity.x-1, this.ball.body.velocity.y-1);
+	    }
+	}
 }
 
 var titleState = {
@@ -183,15 +239,15 @@ var titleState = {
 	},
 
 	create: function(){
-		this.labelTitle = game.add.text(game.world.centerX, game.world.centerY, "Pong", {font: '30px Arial', fill: '#ffffff'});
+		this.labelTitle = game.add.text(game.world.centerX, game.world.centerY-125, "Pong", {font: '50px Arial', fill: '#ffffff'});
 		this.labelTitle.anchor.setTo(0.5, 0.5);
-		this.labelTitle = game.add.text(game.world.centerX, game.world.centerY+50, "Play", {font: '30px Arial', fill: '#ffffff'});
+		this.labelTitle = game.add.text(game.world.centerX, game.world.centerY-25, "Play", {font: '30px Arial', fill: '#ffffff'});
 		this.labelTitle.anchor.setTo(0.5, 0.5);
 		this.labelTitle.inputEnabled = true;
 		this.labelTitle.events.onInputDown.add(function(){
 			game.state.start('choice');
 		}, this);
-		this.labelTitle = game.add.text(game.world.centerX, game.world.centerY+100, "Options", {font: '30px Arial', fill: '#ffffff'});
+		this.labelTitle = game.add.text(game.world.centerX, game.world.centerY+25, "Options", {font: '30px Arial', fill: '#ffffff'});
 		this.labelTitle.anchor.setTo(0.5, 0.5);
 		this.labelTitle.inputEnabled = true;
 		this.labelTitle.events.onInputDown.add(function(){
